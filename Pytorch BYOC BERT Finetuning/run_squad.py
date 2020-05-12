@@ -974,7 +974,7 @@ def main():
     try:
         tokenizer = BertTokenizer(args.vocab_file, do_lower_case=args.do_lower_case, max_len=512) # for bert large
     except:
-        tokenizer = BertTokenizer('/workspace/bert/vocab1', do_lower_case=args.do_lower_case, max_len=512)
+        tokenizer = BertTokenizer('/workspace/bert/vocab', do_lower_case=args.do_lower_case, max_len=512)
     # tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
 
     train_examples = None
@@ -1146,15 +1146,11 @@ def main():
         output_model_file = os.path.join(args.output_dir, 'model.pth')
         torch.save({"model":model_to_save.state_dict()}, output_model_file)
         with tarfile.open('/opt/ml/model/model.tar.gz', 'w:gz') as f:
-            f.add(output_model_file)        # this isn't working for some reason. 
+            f.add(output_model_file)        
         if args.save_to_s3:
             s3_client = boto3.client('s3')
             s3_client.upload_file('/opt/ml/model/model.tar.gz',args.save_to_s3, 'model.tar.gz')
-            s3_client.upload_file(output_model_file, args.save_to_s3, 'model.pth')
-            #s3_client.upload_file('/opt/ml/model/model.tar.gz',args.save_to_sagemaker_dir, 'model.tar.gz')
-#         else: 
-#             s3_client = boto3.client('s3')
-            #s3_client.upload_file('/opt/ml/model/model.tar.gz',args.save_to_sagemaker_dir, 'model.tar.gz')            
+            s3_client.upload_file(output_model_file, args.save_to_s3, 'model.pth')           
             
         output_config_file = os.path.join(args.output_dir, CONFIG_NAME)
         with open(output_config_file, 'w') as f:

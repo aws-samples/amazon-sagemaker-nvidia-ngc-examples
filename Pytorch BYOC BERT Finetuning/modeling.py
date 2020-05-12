@@ -33,12 +33,13 @@ from torch import nn
 from torch.nn import CrossEntropyLoss
 from torch.utils import checkpoint
 
-from file_utils import cached_path
+#from file_utils import cached_path
 
 from torch.nn import Module
 from torch.nn.parameter import Parameter
 import torch.nn.functional as F
 import torch.nn.init as init
+
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +55,7 @@ PRETRAINED_MODEL_ARCHIVE_MAP = {
 CONFIG_NAME = 'bert_config.json'
 WEIGHTS_NAME = 'pytorch_model.bin'
 TF_WEIGHTS_NAME = 'model.ckpt'
+
 
 def load_tf_weights_in_bert(model, tf_checkpoint_path):
     """ Load tf checkpoints in a pytorch model

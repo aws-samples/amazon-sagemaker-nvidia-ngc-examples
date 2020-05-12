@@ -19,8 +19,17 @@ import os
 import signal
 import subprocess
 import sys
+import boto3
+#import sagemaker
 
 cpu_count = multiprocessing.cpu_count()
+
+#sess = sagemaker.Session()
+#bucket = sess.default_bucket()
+with open('s3_bucket.txt','r') as f:
+    bucket = f.read()
+s3_client = boto3.client('s3')
+s3_client.download_file(bucket.split('/')[2], 'model.pth', 'model.pth')
 
 model_server_timeout = os.environ.get('MODEL_SERVER_TIMEOUT', 60)
 model_server_workers = int(os.environ.get('MODEL_SERVER_WORKERS', cpu_count))
