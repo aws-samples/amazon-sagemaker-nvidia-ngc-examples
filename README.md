@@ -1,4 +1,4 @@
-# Amazon SageMaker and NGC Examples
+# Amazon SageMaker and NVIDIA GPU Cloud (NGC) Examples
 
 This repository is a collection of notebooks that will show you how to use NGC containers and models withing Amazon SageMaker. 
 This repository includes the following examples:
