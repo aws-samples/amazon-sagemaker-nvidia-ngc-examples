@@ -1,7 +1,6 @@
 # Amazon SageMaker and NVIDIA GPU Cloud (NGC) Examples
 
-This repository is a collection of notebooks that will show you how to use NGC containers and models withing Amazon SageMaker. 
-This repository includes the following examples:
+This repository is a collection of notebooks that will show you how to use NGC containers and models withing Amazon SageMaker. This repository includes the following examples:
 
 1. Using an NGC PyTorch container to Fine-tune a BERT model
 2. Using an NGC pretrained BERT model for Question-Answering in PyTorch
