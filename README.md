@@ -6,7 +6,7 @@ This repository includes the following examples:
 1. Using an NGC PyTorch container to Fine-tune a BERT model
 2. Using an NGC pretrained BERT model for Question-Answering in PyTorch
 3. Deploy an NGC SSD model for PyTorch on SageMaker
-4. Compile a PyTorch model from NGC to Neo and deploy onto SageMaker
+4. Compile a PyTorch model from NGC to SageMaker Neo and deploy onto SageMaker
 5. Train and Deploy a TensorFlow BERT model using the NGC container/model to TensorRT
 6. Using an NGC TensorFlow container on SageMaker
 7. Deploy an NGC model for TensorFlow on SageMaker
