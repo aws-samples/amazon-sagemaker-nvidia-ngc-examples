@@ -18,6 +18,7 @@
 
 import math
 import torch
+import torch.distributed as dist
 from torch.optim import Optimizer
 from torch.optim.optimizer import required
 from torch.nn.utils import clip_grad_norm_
@@ -25,12 +26,22 @@ from torch.nn.utils import clip_grad_norm_
 from apex.optimizers import FusedAdam
 from apex.multi_tensor_apply import multi_tensor_applier
 import amp_C
-from utils import is_main_process
+# from utils import is_main_process
 
 multi_tensor_l2norm = amp_C.multi_tensor_l2norm
 lamb_compute_update = amp_C.multi_tensor_lamb_stage1_cuda
 lamb_apply_update = amp_C.multi_tensor_lamb_stage2_cuda
 scale = amp_C.multi_tensor_scale
+
+def get_rank():
+    if not dist.is_available():
+        return 0
+    if not dist.is_initialized():
+        return 0
+    return dist.get_rank()
+
+def is_main_process():
+    return get_rank() == 0
 
 
 def warmup_cosine(x, warmup=0.002):

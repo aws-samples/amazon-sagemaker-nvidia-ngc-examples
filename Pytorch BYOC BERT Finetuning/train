@@ -31,7 +31,7 @@ workspace = '/workspace/bert'
 input_path = os.path.join(prefix,'input/data')
 output_path = os.path.join(prefix, 'output')
 model_path = os.path.join(workspace, 'bert_base.pt')
-param_path = os.path.join(prefix, 'input/config/hyperparameters.json')
+param_path = os.path.join(prefix, 'input/config/hyperparameters.json') # point this to 
 
 # This algorithm has a single channel of input data called 'training'. Since we run in
 # File mode, the input files are copied to the directory specified here.
@@ -73,8 +73,16 @@ if __name__ == '__main__':
         # Amazon SageMaker makes our specified hyperparameters available within the
         # /opt/ml/input/config/hyperparameters.json.
         # https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-training-algo.html#your-algorithms-training-algo-running-container
-        #try:
-        os.system('cd /workspace/bert/data/squad/ && bash squad_download.sh')
+        if os.path.exists('/opt/ml/input/data/train/'):
+            os.system('cp /opt/ml/input/data/train/* /workspace/bert/data/squad')
+        else:
+            print(os.system('ls /opt/ml/input/'))
+            print(os.system('echo ------------'))
+            print(os.system('ls /opt/ml/input/data/'))
+            print(os.system('echo ------------'))
+            print(os.system('ls /opt/ml/input/data/train'))
+            print('downloading data...')
+            os.system('cd /workspace/bert/data/squad/ && bash squad_download.sh')
         with open(param_path, 'r') as tc:
             hyperparams = json.load(tc)
            

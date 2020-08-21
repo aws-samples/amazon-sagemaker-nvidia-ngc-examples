@@ -34,21 +34,44 @@ import torch
 from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
                               TensorDataset)
 from torch.utils.data.distributed import DistributedSampler
+import torch.distributed as dist
 from tqdm import tqdm, trange
 
 from apex import amp
-from schedulers import LinearWarmUpScheduler
-from file_utils import PYTORCH_PRETRAINED_BERT_CACHE
-from modeling import BertForQuestionAnswering, BertConfig, WEIGHTS_NAME, CONFIG_NAME
-from optimization import BertAdam, warmup_linear
-from tokenization import (BasicTokenizer, BertTokenizer, whitespace_tokenize)
-from utils import is_main_process, format_step
+from model_utils.schedulers import LinearWarmUpScheduler
+from model_utils.file_utils import PYTORCH_PRETRAINED_BERT_CACHE
+from model_utils.modeling import BertForQuestionAnswering, BertConfig, WEIGHTS_NAME, CONFIG_NAME
+from model_utils.optimization import BertAdam, warmup_linear
+from model_utils.tokenization import (BasicTokenizer, BertTokenizer, whitespace_tokenize)
+# from utils import is_main_process, format_step
 import dllogger, time
 
 if sys.version_info[0] == 2:
     import cPickle as pickle
 else:
     import pickle
+    
+def get_rank():
+    if not dist.is_available():
+        return 0
+    if not dist.is_initialized():
+        return 0
+    return dist.get_rank()
+
+def is_main_process():
+    return get_rank() == 0
+
+def format_step(step):
+    if isinstance(step, str):
+        return step
+    s = ""
+    if len(step) > 0:
+        s += "Training Epoch: {} ".format(step[0])
+    if len(step) > 1:
+        s += "Training Iteration: {} ".format(step[1])
+    if len(step) > 2:
+        s += "Validation Iteration: {} ".format(step[2])
+    return s
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
                     datefmt='%m/%d/%Y %H:%M:%S',
