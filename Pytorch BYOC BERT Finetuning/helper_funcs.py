@@ -1,7 +1,7 @@
 import collections
 from types import SimpleNamespace
 RawResult = collections.namedtuple("RawResult", ["start_logits", "end_logits"])
-from tokenization import (BasicTokenizer, BertTokenizer, whitespace_tokenize)
+from model_utils.tokenization import (BasicTokenizer, BertTokenizer, whitespace_tokenize)
 import math
 
 def get_final_text(pred_text, orig_text, do_lower_case):

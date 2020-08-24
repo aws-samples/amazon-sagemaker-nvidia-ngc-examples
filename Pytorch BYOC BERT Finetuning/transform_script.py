@@ -1607,7 +1607,6 @@ def predict_fn(input_data, model):
 def model_fn(model_dir):
     config = BertConfig.from_json_file('bert_config.json')
     model = BertForQuestionAnswering(config)
-    print(subprocess.getoutput('ls /opt/ml'))
     print(subprocess.getoutput('ls /opt/ml/model'))
     print(subprocess.getoutput('find bert_base_qa.pt'))
     try:
